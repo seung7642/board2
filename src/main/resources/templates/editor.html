@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pebble Test Board</title>
+</head>
+<body>
+
+<div>
+    <textarea id="editor" class="textarea" name="contents" required></textarea>
+
+    <br/>
+
+    <button id="content-view" type="button" class="btn btn-sm btn-primary">내용보기</button>
+</div>
+
+<div>
+
+</div>
+
+{% include "/include/plugins" %}
+
+<script src="/ckeditor/ckeditor.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        CKEDITOR.replace("editor", {
+            allowedContent : true,
+            removePlugins : 'iframe'
+        });
+
+        $("#content-view").click (function () {
+            var contents = CKEDITOR.instances.editor.getData();
+            console.log(contents);
+        });
+    });
+</script>
+
+</body>
+</html>

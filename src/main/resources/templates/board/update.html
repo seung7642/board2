@@ -1,0 +1,133 @@
+{% extends "board/base" %}
+
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">게시글 작성</h1>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                        <li class="breadcrumb-item active">Board Write</li>
+                    </ol>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form role="form" id="writeForm" method="post" action="">
+                            <div class="box box-primary">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="title">제목</label>
+                                        <input class="form-control" id="title" name="title" placeholder="제목을 입력해주세요" maxlength="64" value="{{ article.title }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="writer">작성자</label>
+                                        <input class="form-control" id="writer" name="writer" maxlength="32" value="{{ article.writer }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="content">내용</label>
+                                        <textarea class="form-control" id="content" name="content" rows="10"
+                                                  placeholder="내용을 입력해주세요" maxlength="1024">{{ article.content }}</textarea>
+                                        <input type="hidden" id="contentValue">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control" name="idx" id="idx" value="{{ article.idx }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-success" id="btnSave">저장</button>
+                        <button type="button" class="btn btn-danger" id="btnCancle">취소</button>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+{% endblock %}
+
+{% block script %}
+<script src="/ckeditor/ckeditor.js"></script>
+<script>
+    function validator() {
+        // 제목 또는 내용이 비어있다면
+        if ($("#title").val() == '' || $("#content").val() == '') {
+            alert("제목 또는 내용을 입력하세요 !");
+            return false;
+        }
+    }
+
+    function update() {
+        var isOk = validator();
+        if (isOk) {
+            return;
+        }
+
+        $.ajax({
+            url: "/board/update",
+            type: "PUT",
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                "idx" : $("#idx").val(),
+                "title" : $("#title").val(),
+                "writer" : $("#writer").val(),
+                "content" : CKEDITOR.instances.content.getData()
+            }),
+            success: function(result) {
+                console.log(result);
+                alert("글쓰기 수정 완료 !\nidx : " + result.idx + "\nTitle :" + result.title + "\nWriter : " + result.writer);
+                window.location.href = '/board/list';
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                alert("code : " + jqXHR.status + "\nerror message : " + jqXHR.responseText
+                    + "\ntitle : " + jqXHR.responseJSON.title + "\ncontent : " + jqXHR.responseJSON.content);
+            }
+        })
+    }
+
+    $(document).ready(function() {
+        $("#btnSave").on("click", update);
+        $("#btnCancle").on("click", function() {
+            window.location.href = '/board/list';
+        });
+
+        CKEDITOR.replace("content", {
+            allowedContent : true,
+            removePlugins : 'iframe'
+        });
+
+        $("#content-view").click (function () {
+            var contents = CKEDITOR.instances.editor.getData();
+            console.log(contents);
+        });
+    })
+</script>
+{% endblock %}

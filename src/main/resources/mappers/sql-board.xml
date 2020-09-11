@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace에 등록된 클래스와 매핑시킨다. 해당 클래스에선 해당 설정의 값들을 사용할 수 있게됨. -->
+<mapper namespace="com.neowiz.practice.application.board.dao.BoardMapper">
+
+    <!-- 아래의 resultType에 등록한 Message 객체는 /domain/ArticleDTO.java 클래스에서 @Alias("ArticleDTO")로 등록했기 때문에 사용이 가능한 것. -->
+    <select id="getArticle" resultType="Board" parameterType="Integer">
+        SELECT
+              idx
+            , title
+            , content
+            , writer
+            , reg_date
+            , upd_date
+            , hits
+        FROM
+            BOARD_TBL
+        WHERE
+            idx = #{idx}
+    </select>
+
+    <!-- domain/ 객체는 @Alias("ㅁㅁ")를 썼기 때문에 매퍼에서 해당 타입을 참조할 수 있는건데, Page와 같은 외부 객체는 어떻게 참조하지 ? -->
+    <select id="getArticleList" resultType="Board" parameterType="Criteria">
+        SELECT
+            idx
+            , title
+            , content
+            , writer
+            , reg_date
+            , upd_date
+            , hits
+        FROM
+            free_board2.BOARD_TBL
+        ORDER BY
+            idx DESC
+        LIMIT #{startIndex}, #{amount};
+    </select>
+
+    <select id="findAll" resultType="Board" parameterType="Integer">
+        SELECT
+             *
+        FROM
+            free_board2.board_tbl as outside
+        JOIN (
+            SELECT idx
+            FROM free_board2.board_tbl
+            WHERE idx &lt; #{idx}
+            ORDER BY idx DESC
+            LIMIT 10
+        ) as tmp
+        ON outside.idx = tmp.idx
+    </select>
+
+    <select id="getArticleCount" resultType="int">
+        SELECT
+            cnt
+        FROM
+            free_board2.count_board_tbl
+    </select>
+
+    <select id="getLastIdx" resultType="int">
+        SELECT idx
+        FROM free_board2.BOARD_TBL
+        ORDER BY idx DESC
+        limit 1
+    </select>
+
+    <insert id="insertArticle" parameterType="Board" useGeneratedKeys="true" keyProperty="idx">
+        INSERT INTO BOARD_TBL (
+              title
+            , content
+            , writer
+            , reg_date
+        ) VALUES (
+              #{title}
+            , #{content}
+            , #{writer}
+            , NOW()
+        )
+    </insert>
+
+    <update id="updateArticle" parameterType="Board">
+        UPDATE
+            BOARD_TBL
+        SET
+              title = #{title}
+            , content = #{content}
+            , writer = #{writer}
+            , upd_date = NOW()
+        WHERE
+            idx = #{idx}
+    </update>
+
+    <delete id="deleteArticle" parameterType="Integer">
+        DELETE FROM
+            BOARD_TBL
+        WHERE
+            idx = #{idx}
+    </delete>
+
+    <update id="updateHits" parameterType="Integer">
+        UPDATE
+            BOARD_TBL
+        SET
+            hits = hits + 1
+        WHERE
+            idx = #{idx}
+    </update>
+
+    <update id="plusArticleCount">
+        UPDATE
+            COUNT_BOARD_TBL
+        SET
+            cnt = cnt + 1
+        WHERE
+            idx = 1
+    </update>
+
+    <update id="minusArticleCount">
+        UPDATE
+            COUNT_BOARD_TBL
+        SET
+            cnt = cnt - 1
+        WHERE
+            idx = 1
+    </update>
+
+</mapper>

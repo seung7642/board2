@@ -1,0 +1,130 @@
+{% extends "board/base" %} <!-- Parent Template declared -->
+
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">게시글 목록</h1>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                        <li class="breadcrumb-item active">Board List</li>
+                    </ol>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main Content -->
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">총 게시글 : {{ boardList.totalArticleCount }}</h3>
+                        </div>
+
+                        <div class="card-body">
+                            <form id="actionForm" method="GET" action="/board/list">
+                                <input type="hidden" name="pageNum" value="{{ boardList.pageable.pageNum }}">
+                                <input type="hidden" name="amount" value="{{ boardList.pageable.pageSize }}">
+                                {% set contentList = boardList.content %}
+                                {% set size = boardList.pageable.pageSize %}
+                                테스트 : {{ contentList[size - 1].idx }}
+                                <input type="hidden" name="lowIdx" value="{{ contentList[size - 1].idx }}">
+                            </form>
+
+                            <table class="table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th scope="col">글번호</th>
+                                    <th scope="col">제목</th>
+                                    <th scope="col">내용</th>
+                                    <th scope="col">조회수</th>
+                                    <th scope="col">등록일</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for board in boardList.content %}
+                                <tr>
+                                    <th scope="row">{{ boardList.totalArticleCount - (loop.index + (boardList.number - 1) * boardList.size) }}</th>
+                                    <td><a href="/board/read?idx={{ board.idx }}">
+                                        {% if board.title.length > 20  %}
+                                            {{ board.title | slice(0, 10) }}
+                                        {% else %}
+                                            {{ board.title }}
+                                        {% endif %}</a></td>
+                                    <td>{% autoescape false %}
+                                        {% set content = board.content | split("<br") %}
+                                        {% if content[0].length > 10 %}
+                                            {{ content[0] | slice(0, 10) }}
+                                        {% else %}
+                                            {{ content[0] }}
+                                        {% endif %}
+                                        {% endautoescape %}
+                                    </td>
+                                    <td>{{ board.hits }}</td>
+                                    <td>{{ board.regDate | date("yyyy-MM-dd HH:mm") }}</td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="4">데이터가 없습니다.</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer clearfix">
+                            <ul class="pagination pagination-sm m-0 float-right">
+                                <li class="page-item"><a
+                                        class="page-link" href="/board/list?page={{ boardList.firstPage }}">&laquo;</a></li>
+                                <li class="page-item"><a
+                                        class="page-link" href="/board/list?page={{ boardList.prevPage }}">이전</a></li>
+                                {% for  i in range(boardList.startPage, boardList.endPage) %}
+                                <li class="page-item"><a
+                                        class="page-link" href="/board/list?page={{ i }}">{{ i }}</a></li>
+                                {% endfor %}
+                                <li class="page-item"><a
+                                        class="page-link" href="/board/list?page={{ boardList.nextPage }}">다음</a></li>
+                                <li class="page-item"><a
+                                        class="page-link" href="/board/list?page={{ boardList.lastPage }}">&raquo;</a></li>
+                            </ul>
+                        </div>
+                        <!-- /.card-footer -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function() {
+        $("li.nav-item > a.a").addClass("active");
+
+        var $idx = $("input[name='lowIdx']").val();
+        console.log("현재 페이지의 가장 낮은 IDX 값 : " + $idx);
+    })
+</script>
+{% endblock %}

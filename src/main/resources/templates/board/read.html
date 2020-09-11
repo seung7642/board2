@@ -1,0 +1,84 @@
+{% extends "board/base" %} <!-- Parent Template declared -->
+
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">게시글 읽기</h1>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                        <li class="breadcrumb-item active">Board Read</li>
+                    </ol>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="content">
+        <section class="content container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header with-border">
+                            <h3 class="box-title">{{ article.title | raw }}</h3>
+                        </div>
+                        <div class="card-body" style="height: 400px">
+                            {% autoescape false %}
+                            {{ article.content | replace({ '<script>': "", '</script>' : "" }) }}
+                            {% endautoescape %}
+
+                            <div class="uploadResult">
+                                <ul>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="float-right">
+                                <button type="button" class="btn btn-primary"><i class="fas fa-pencil-alt"></i><a href="/board/update?idx={{ article.idx }}" style="color: white">수정</a></button>
+                            </div>
+                            <button type="button" id="btnDelete" class="btn btn-danger delBtn"><i class="fas fa-times"></i>삭제</button>
+                        </div>
+                        <div>
+                            <input name="idx" id="idx" type="hidden" value="{{ article.idx }}">
+                            <input name="title" id="title" type="hidden" value="{{ article.title }}">
+                            <input name="content" id="content" type="hidden" value="{{ article.content }}">
+                            <input name="writer" id="writer" type="hidden" value="{{ article.writer }}">
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+        </section>
+    </div>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+{% endblock %}
+
+{% block script %}
+<script src="/dist/js/article_read.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#btnDelete").on("click", deleteFunc);
+
+        getFileData($("input[name='idx']").val());
+
+        registClickEventToImage();
+    })
+</script>
+{% endblock %}

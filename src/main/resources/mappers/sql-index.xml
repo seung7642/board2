@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace에 등록된 클래스와 매핑시킨다. 해당 클래스에선 해당 설정의 값들을 사용할 수 있게됨. -->
+<mapper namespace="com.neowiz.practice.application.index.dao.IndexMapper">
+
+    <!-- 아래의 resultType에 등록한 Message 객체는 /domain/Message.java 클래스에서 @Alias("Message")로 등록했기 때문에 사용이 가능한 것. -->
+    <select id="get" resultType="Message">
+        SELECT
+              1 as seq
+            , 'Title' as title
+            , 'Message' as message
+            , now() as reg_date
+        FROM
+            dual
+    </select>
+
+</mapper>
