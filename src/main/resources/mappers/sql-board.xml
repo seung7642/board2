@@ -120,7 +120,7 @@
 
     <update id="minusArticleCount">
         UPDATE
-            count_board_tblÎ
+            count_board_tbl
         SET
             cnt = cnt - 1
         WHERE

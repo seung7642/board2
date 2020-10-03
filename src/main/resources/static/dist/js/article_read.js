@@ -6,16 +6,16 @@
 function deleteFunc() {
     alert("삭제하고자하는 글 idx : " + $("#idx").val());
     $.ajax({
-        url: "/board/delete",
+        url: "/board/delete/" + $("#idx").val(),
         type: "DELETE",
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify({
-              "idx" : $("#idx").val()
-            , "title" : $("#title").val()
-            , "content" : $("#content").val()
-            , "writer" : $("#writer").val()
-        }),
+        // dataType: 'json',
+        // contentType: 'application/json',
+        // data: JSON.stringify({
+        //       "idx" : $("#idx").val()
+        //     , "title" : $("#title").val()
+        //     , "content" : $("#content").val()
+        //     , "writer" : $("#writer").val()
+        // }),
         success: function(result) {
             console.log(result)
             alert("글쓰기 삭제 완료 !\nidx : " + result.idx + "\nTitle :" + result.title + "\nWriter : " + result.writer);
@@ -23,8 +23,6 @@ function deleteFunc() {
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(jqXHR);
-            alert("code : " + jqXHR.status + "\nerror message : " + jqXHR.responseText
-                + "\ntitle : " + jqXHR.responseJSON.title + "\ncontent : " + jqXHR.responseJSON.content);
         }
     });
 }

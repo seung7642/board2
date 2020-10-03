@@ -59,14 +59,13 @@ public class BoardRestController {
         return entity;
     }
 
-    @DeleteMapping(value = "/delete")
-    public ResponseEntity<Board> delete(@RequestBody Board board) {
-        log.info("delete로 들어온 idx : {}", board.getIdx());
+    @DeleteMapping(value = "/delete/{idx}")
+    public ResponseEntity<Board> delete(@PathVariable("idx") Integer idx) {
         ResponseEntity<Board> entity;
 
         try {
-            Board retBoard = boardService.getArticle(board.getIdx());
-            boardService.deleteArticle(board.getIdx());
+            Board board = boardService.getArticle(idx);
+            boardService.deleteArticle(idx);
             entity = new ResponseEntity<>(board, HttpStatus.OK);
         } catch (Exception e) {
             entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);

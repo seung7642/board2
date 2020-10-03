@@ -6,6 +6,7 @@ import com.neowiz.practice.application.board.service.UploadDownloadService;
 import com.neowiz.practice.commons.exception.ResourceNotFoundException;
 import com.neowiz.practice.commons.utils.DownloadFileUtils;
 import com.neowiz.practice.commons.utils.UploadFileUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -29,16 +30,12 @@ import java.util.List;
  * Time: 오전 9:50
  */
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/board")
 public class UploadDownloadRestController {
 
     private final UploadDownloadService uploadDownloadService;
-
-    @Autowired
-    public UploadDownloadRestController(UploadDownloadService uploadDownloadService) {
-        this.uploadDownloadService = uploadDownloadService;
-    }
 
     @PostMapping(value = "/upload")
     public ResponseEntity<AttachFile> upload(MultipartFile uploadFile) {

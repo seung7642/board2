@@ -23,8 +23,7 @@ function insert(data) {
         data: JSON.stringify(combined),
         success: function(resultData) {
             alert("insert 데이터 정상 처리 !\nidx: " + resultData.idx);
-            console.log("데이터 정상 처리" + resultData);
-            window.location.href = '/board/read?idx=' + resultData.idx;
+            window.location.href = '/board/read/' + resultData.idx;
         },
         error: function(request, error) {
             console.log("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
