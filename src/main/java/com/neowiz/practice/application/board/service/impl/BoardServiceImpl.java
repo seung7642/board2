@@ -7,6 +7,7 @@ import com.neowiz.practice.application.board.domain.Board;
 import com.neowiz.practice.application.board.domain.PageMaker;
 import com.neowiz.practice.application.board.service.BoardService;
 import com.neowiz.practice.commons.exception.NotValidException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class BoardServiceImpl implements BoardService {
 
@@ -25,12 +27,6 @@ public class BoardServiceImpl implements BoardService {
     // 캡처2 : br을 제외한 문자
     // 캡처3 : >
     private static final String XSS_FILTER_REGEX = "([&]lt[;])([^br][/a-zA-Z]+)([&]gt[;])";
-
-    @Autowired
-    public BoardServiceImpl(BoardMapper boardMapper, BoardAttachMapper attachMapper) {
-        this.boardMapper = boardMapper;
-        this.attachMapper = attachMapper;
-    }
 
     @Override
     public Board getArticle(Integer idx) {

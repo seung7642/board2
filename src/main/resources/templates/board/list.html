@@ -59,7 +59,8 @@
                                 {% for board in boardList.content %}
                                 <tr>
                                     <th scope="row">{{ boardList.totalArticleCount - (loop.index + (boardList.number - 1) * boardList.size) }}</th>
-                                    <td><a href="/board/read?idx={{ board.idx }}">
+<!--                                    <td><a href="/board/read?idx={{ board.idx }}">-->
+                                    <td><a href="/board/read/{{ board.idx }}">
                                         {% if board.title.length > 20  %}
                                             {{ board.title | slice(0, 10) }}
                                         {% else %}

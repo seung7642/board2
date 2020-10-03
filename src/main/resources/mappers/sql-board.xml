@@ -16,7 +16,7 @@
             , upd_date
             , hits
         FROM
-            BOARD_TBL
+            board_tbl
         WHERE
             idx = #{idx}
     </select>
@@ -32,7 +32,7 @@
             , upd_date
             , hits
         FROM
-            free_board2.BOARD_TBL
+            board_tbl
         ORDER BY
             idx DESC
         LIMIT #{startIndex}, #{amount};
@@ -42,10 +42,10 @@
         SELECT
              *
         FROM
-            free_board2.board_tbl as outside
+            board_tbl as outside
         JOIN (
             SELECT idx
-            FROM free_board2.board_tbl
+            FROM board_tbl
             WHERE idx &lt; #{idx}
             ORDER BY idx DESC
             LIMIT 10
@@ -53,22 +53,22 @@
         ON outside.idx = tmp.idx
     </select>
 
-    <select id="getArticleCount" resultType="int">
+    <select id="getArticleCount" resultType="Integer">
         SELECT
             cnt
         FROM
-            free_board2.count_board_tbl
+            count_board_tbl
     </select>
 
-    <select id="getLastIdx" resultType="int">
+    <select id="getLastIdx" resultType="Integer">
         SELECT idx
-        FROM free_board2.BOARD_TBL
+        FROM board_tbl
         ORDER BY idx DESC
         limit 1
     </select>
 
     <insert id="insertArticle" parameterType="Board" useGeneratedKeys="true" keyProperty="idx">
-        INSERT INTO BOARD_TBL (
+        INSERT INTO board_tbl (
               title
             , content
             , writer
@@ -83,7 +83,7 @@
 
     <update id="updateArticle" parameterType="Board">
         UPDATE
-            BOARD_TBL
+            board_tbl
         SET
               title = #{title}
             , content = #{content}
@@ -95,14 +95,14 @@
 
     <delete id="deleteArticle" parameterType="Integer">
         DELETE FROM
-            BOARD_TBL
+            board_tbl
         WHERE
             idx = #{idx}
     </delete>
 
     <update id="updateHits" parameterType="Integer">
         UPDATE
-            BOARD_TBL
+            board_tbl
         SET
             hits = hits + 1
         WHERE
@@ -111,7 +111,7 @@
 
     <update id="plusArticleCount">
         UPDATE
-            COUNT_BOARD_TBL
+            count_board_tbl
         SET
             cnt = cnt + 1
         WHERE
@@ -120,7 +120,7 @@
 
     <update id="minusArticleCount">
         UPDATE
-            COUNT_BOARD_TBL
+            count_board_tblÎ
         SET
             cnt = cnt - 1
         WHERE

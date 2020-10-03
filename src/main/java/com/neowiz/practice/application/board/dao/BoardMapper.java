@@ -47,7 +47,7 @@ public interface BoardMapper { //  /mappers/sql-board.xml 파일에서 해당 �
      *
      * @return int
      */
-    int getLastIdx();
+    Integer getLastIdx();
 
     /**
      * 전체 게시글의 갯수를 가져온다.
@@ -55,7 +55,7 @@ public interface BoardMapper { //  /mappers/sql-board.xml 파일에서 해당 �
      * @param
      * @return int
      */
-    int getArticleCount();
+    Integer getArticleCount();
 
     /**
      * 게시글 하나를 생성한다.
@@ -63,7 +63,7 @@ public interface BoardMapper { //  /mappers/sql-board.xml 파일에서 해당 �
      * @param board
      * @return int
      */
-    int insertArticle(Board board);
+    Integer insertArticle(Board board);
 
     /**
      * 게시글 하나를 삭제한다.

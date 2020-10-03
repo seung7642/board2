@@ -3,6 +3,7 @@ package com.neowiz.practice.application.board.web;
 import com.neowiz.practice.application.board.domain.Board;
 import com.neowiz.practice.application.board.service.BoardService;
 import com.neowiz.practice.commons.exception.NotValidException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,21 +21,19 @@ import java.util.*;
  * Time: 오전 9:50
  */
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/board")
 public class BoardRestController {
 
     private final BoardService boardService;
 
-    @Autowired
-    public BoardRestController(BoardService boardService) { this.boardService = boardService; }
-
     // 유효성 검증에 실패하면 Spring Boot는 MethodArgumentNotValidException 예외를 던진다.
     @PostMapping(value = "/write")
     public ResponseEntity<Board> writePost(@Valid @RequestBody Board board) {
         log.info("INSERT ajax로 넘어온 데이터 : {}", board.toString());
         log.info("넘어온 attach 객체 정보 : {}", board.getAttach());
-        ResponseEntity<Board> entity = null;
+        ResponseEntity<Board> entity;
 
         try {
             boardService.insertArticle(board);
@@ -63,7 +62,7 @@ public class BoardRestController {
     @DeleteMapping(value = "/delete")
     public ResponseEntity<Board> delete(@RequestBody Board board) {
         log.info("delete로 들어온 idx : {}", board.getIdx());
-        ResponseEntity<Board> entity = null;
+        ResponseEntity<Board> entity;
 
         try {
             Board retBoard = boardService.getArticle(board.getIdx());

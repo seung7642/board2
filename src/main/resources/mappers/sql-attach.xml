@@ -6,7 +6,7 @@
 <mapper namespace="com.neowiz.practice.application.board.dao.BoardAttachMapper">
 
     <insert id="insert" parameterType="BoardAttach">
-        INSERT INTO BOARD_ATTACH_TBL (
+        INSERT INTO board_attach_tbl (
               uuid
             , upload_path
             , file_name
@@ -22,7 +22,7 @@
     </insert>
 
     <delete id="delete" parameterType="Integer">
-        DELETE FROM BOARD_ATTACH_TBL
+        DELETE FROM board_attach_tbl
         WHERE uuid = #{uuid}
     </delete>
 
@@ -30,7 +30,7 @@
         SELECT
             *
         FROM
-            BOARD_ATTACH_TBL
+            board_attach_tbl
         WHERE
             board_idx = #{boardIdx}
     </select>

@@ -1,4 +1,4 @@
-# 로그 설정 ( 후에 slf4j를 사용해서 로그 찍을거임 )
+# 로그 설정
 logging.level:
   org.springframework: INFO
   com.neowiz: DEBUG
@@ -20,9 +20,9 @@ pebble:
 spring:
   datasource:
     hikari:
-      jdbc-url: jdbc:mysql://10.30.173.134:3306/free_board2?allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8
-      username: board_admin2
-      password: board_admin2!!!
+      jdbc-url: jdbc:mysql://localhost:3306/practice_board?allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8
+      username: seung7642
+      password: password
       connection-test-query: SELECT 1 FROM DUAL
   servlet:
     multipart:

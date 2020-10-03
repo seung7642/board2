@@ -2,6 +2,7 @@ package com.neowiz.practice.application.board.web;
 
 import com.neowiz.practice.application.board.service.BoardService;
 import com.neowiz.practice.commons.exception.NotValidException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -17,16 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
  * Time: 오전 9:50
  */
 @Slf4j
+@RequiredArgsConstructor
 @Controller
 @RequestMapping(value = "/board")
 public class BoardController {
 
     private final BoardService boardService;
-
-    @Autowired
-    public BoardController(BoardService boardService) {
-        this.boardService = boardService;
-    }
 
     @GetMapping(value = "/list")
     public ModelAndView list(ModelAndView mnv,
@@ -40,13 +37,12 @@ public class BoardController {
 
     @GetMapping(value = "/write")
     public ModelAndView writeGet(ModelAndView mnv) {
-
         mnv.setViewName("board/write");
         return mnv;
     }
 
-    @GetMapping(value = "/read")
-    public ModelAndView readGet(@RequestParam("idx") Integer idx, ModelAndView mnv) {
+    @GetMapping(value = "/read/{idx}")
+    public ModelAndView readGet(@PathVariable("idx") Integer idx, ModelAndView mnv) {
         log.info("읽고자하는 글 번호 : {}", idx);
 
         try {
@@ -59,8 +55,8 @@ public class BoardController {
         return mnv;
     }
 
-    @GetMapping(value = "/update")
-    public ModelAndView updateGet(@RequestParam("idx") Integer idx, ModelAndView mnv) {
+    @GetMapping(value = "/update/{idx}")
+    public ModelAndView updateGet(@PathVariable("idx") Integer idx, ModelAndView mnv) {
         log.info("수정하고자하는 글 번호 : {}", idx);
 
         try {
