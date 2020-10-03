@@ -17,12 +17,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping(value = "/board")
+@RequestMapping("/board")
 public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping(value = "/list")
+    @GetMapping("/list")
     public ModelAndView list(ModelAndView mnv,
                              @PageableDefault(size = 10, page = 1) Pageable pageable) {
         log.debug("요청으로 들어온 pageNumber = {}, pageSize = {}", pageable.getPageNumber(), pageable.getPageSize());
@@ -32,13 +32,13 @@ public class BoardController {
         return mnv;
     }
 
-    @GetMapping(value = "/write")
+    @GetMapping("/write")
     public ModelAndView writeGet(ModelAndView mnv) {
         mnv.setViewName("board/write");
         return mnv;
     }
 
-    @GetMapping(value = "/read/{idx}")
+    @GetMapping("/read/{idx}")
     public ModelAndView readGet(@PathVariable("idx") Integer idx, ModelAndView mnv) {
         log.info("읽고자하는 글 번호 : {}", idx);
 
@@ -52,7 +52,7 @@ public class BoardController {
         return mnv;
     }
 
-    @GetMapping(value = "/update/{idx}")
+    @GetMapping("/update/{idx}")
     public ModelAndView updateGet(@PathVariable("idx") Integer idx, ModelAndView mnv) {
         log.info("수정하고자하는 글 번호 : {}", idx);
 

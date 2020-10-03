@@ -22,13 +22,13 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/board")
+@RequestMapping("/board")
 public class BoardRestController {
 
     private final BoardService boardService;
 
     // 유효성 검증에 실패하면 Spring Boot는 MethodArgumentNotValidException 예외를 던진다.
-    @PostMapping(value = "/write")
+    @PostMapping("/write")
     public ResponseEntity<Board> writePost(@Valid @RequestBody Board board) {
         log.info("INSERT ajax로 넘어온 데이터 : {}", board.toString());
         log.info("넘어온 attach 객체 정보 : {}", board.getAttach());
@@ -44,7 +44,7 @@ public class BoardRestController {
         return entity;
     }
 
-    @PutMapping(value = "/update")
+    @PutMapping("/update")
     public ResponseEntity<Board> updatePut(@Valid @RequestBody Board board) {
         log.info("UPDATE ajax로 넘어온 데이터 : {}", board.toString());
         ResponseEntity<Board> entity = null;
@@ -58,7 +58,7 @@ public class BoardRestController {
         return entity;
     }
 
-    @DeleteMapping(value = "/delete/{idx}")
+    @DeleteMapping("/delete/{idx}")
     public ResponseEntity<Board> delete(@PathVariable("idx") Integer idx) {
         ResponseEntity<Board> entity;
 

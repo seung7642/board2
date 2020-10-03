@@ -28,12 +28,12 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/board")
+@RequestMapping("/board")
 public class UploadDownloadRestController {
 
     private final UploadDownloadService uploadDownloadService;
 
-    @PostMapping(value = "/upload")
+    @PostMapping("/upload")
     public ResponseEntity<AttachFile> upload(MultipartFile uploadFile) {
         ResponseEntity<AttachFile> entity = null;
 
@@ -46,7 +46,7 @@ public class UploadDownloadRestController {
         return entity;
     }
 
-    @GetMapping(value = "/display")
+    @GetMapping("/display")
     public ResponseEntity<byte[]> display(@RequestParam("filename") String fileName) {
         log.info("브라우저에 노출시킬 이미지 파일명 : {}", fileName);
         ResponseEntity<byte[]> entity = null;
