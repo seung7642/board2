@@ -1,7 +1,7 @@
 package com.pangtrue.practice.commons.exception;
 
 /**
- * User: SeungHo Lee (seung7642@neowiz.com)
+ * User: SeungHo Lee (seung7642@gmail.com)
  * Date: 2020. 2. 4.
  * Time: 오전 9:50
  */
