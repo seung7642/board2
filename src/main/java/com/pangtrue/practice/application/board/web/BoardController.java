@@ -23,11 +23,12 @@ public class BoardController {
     private final BoardService boardService;
 
     @GetMapping("/list")
-    public ModelAndView list(ModelAndView mnv,
-                             @PageableDefault(size = 10, page = 1) Pageable pageable) {
-        log.debug("요청으로 들어온 pageNumber = {}, pageSize = {}", pageable.getPageNumber(), pageable.getPageSize());
-
-        mnv.addObject("boardList", boardService.getArticleList(pageable));
+    public ModelAndView list(@PageableDefault(size = 10, page = 1) Pageable pageable, ModelAndView mnv) {
+        try {
+            mnv.addObject("boardList", boardService.getArticleList(pageable));
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+        }
         mnv.setViewName("board/list");
         return mnv;
     }
@@ -40,13 +41,11 @@ public class BoardController {
 
     @GetMapping("/read/{idx}")
     public ModelAndView readGet(@PathVariable("idx") Integer idx, ModelAndView mnv) {
-        log.info("읽고자하는 글 번호 : {}", idx);
-
         try {
             boardService.updateHits(idx);
             mnv.addObject("article", boardService.getArticle(idx));
-        } catch (Exception e) {
-            log.debug(e.getMessage(), e);
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
         }
         mnv.setViewName("board/read");
         return mnv;
@@ -54,12 +53,10 @@ public class BoardController {
 
     @GetMapping("/update/{idx}")
     public ModelAndView updateGet(@PathVariable("idx") Integer idx, ModelAndView mnv) {
-        log.info("수정하고자하는 글 번호 : {}", idx);
-
         try {
             mnv.addObject("article", boardService.getArticle(idx));
-        } catch (Exception e) {
-            log.debug(e.getMessage(), e);
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
         }
         mnv.setViewName("board/update");
         return mnv;

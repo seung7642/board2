@@ -30,46 +30,36 @@ public class BoardRestController {
     // 유효성 검증에 실패하면 Spring Boot는 MethodArgumentNotValidException 예외를 던진다.
     @PostMapping("/write")
     public ResponseEntity<Board> writePost(@Valid @RequestBody Board board) {
-        log.info("INSERT ajax로 넘어온 데이터 : {}", board.toString());
-        log.info("넘어온 attach 객체 정보 : {}", board.getAttach());
-        ResponseEntity<Board> entity;
-
         try {
             boardService.insertArticle(board);
-            entity = new ResponseEntity<>(board, HttpStatus.OK);
-        } catch (NotValidException e) {
-            log.debug(e.getMessage(), e);
-            entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(board, HttpStatus.OK);
+        } catch (NotValidException ex) {
+            log.error(ex.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return entity;
     }
 
     @PutMapping("/update")
     public ResponseEntity<Board> updatePut(@Valid @RequestBody Board board) {
-        log.info("UPDATE ajax로 넘어온 데이터 : {}", board.toString());
-        ResponseEntity<Board> entity = null;
-
         try {
             boardService.updateArticle(board);
-            entity = new ResponseEntity<>(board, HttpStatus.OK);
-        } catch (NotValidException e) {
-            entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(board, HttpStatus.OK);
+        } catch (NotValidException ex) {
+            log.error(ex.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return entity;
     }
 
     @DeleteMapping("/delete/{idx}")
     public ResponseEntity<Board> delete(@PathVariable("idx") Integer idx) {
-        ResponseEntity<Board> entity;
-
         try {
             Board board = boardService.getArticle(idx);
             boardService.deleteArticle(idx);
-            entity = new ResponseEntity<>(board, HttpStatus.OK);
-        } catch (Exception e) {
-            entity = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(board, HttpStatus.OK);
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return entity;
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

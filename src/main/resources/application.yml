@@ -27,6 +27,6 @@ spring:
   servlet:
     multipart:
       max-file-size: 5MB
-      location: /neowiz-data/board
+      location: /fileupload-data/board
       max-request-size: 40MB
       file-size-threshold: 20971520
