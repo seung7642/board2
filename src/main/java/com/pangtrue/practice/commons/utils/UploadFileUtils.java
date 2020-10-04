@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * User: SeungHo Lee (seung7642@neowiz.com)
+ * User: SeungHo Lee (seung7642@gmail.com)
  * Date: 2020. 2. 7.
  * Time: 오후 5:23
  *
@@ -105,10 +105,9 @@ public class UploadFileUtils {
 
         try (FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, thumbFileName))) {
             Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
-        } catch (IOException e) {
-            log.debug(e.getMessage(), e);
+        } catch (IOException ex) {
+            log.error(ex.getMessage());
         }
-
         return thumbFileName;
     }
 
@@ -154,12 +153,12 @@ public class UploadFileUtils {
     public static String getMimeType(File file) {
         try {
             return Magic.getMagicMatch(file, false).getMimeType();
-        } catch (MagicParseException e) {
-            log.debug(e.getMessage(), e);
-        } catch (MagicMatchNotFoundException e) {
-            log.debug(e.getMessage(), e);
-        } catch (MagicException e) {
-            log.debug(e.getMessage(), e);
+        } catch (MagicParseException ex) {
+            log.error(ex.getMessage());
+        } catch (MagicMatchNotFoundException ex) {
+            log.error(ex.getMessage());
+        } catch (MagicException ex) {
+            log.error(ex.getMessage());
         }
         return "";
     }
