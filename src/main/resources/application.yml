@@ -27,6 +27,6 @@ spring:
   servlet:
     multipart:
       max-file-size: 5MB
-      location: /fileupload-data/board
+      location: /Users/seungho/Desktop/fileupload-data/board
       max-request-size: 40MB
       file-size-threshold: 20971520

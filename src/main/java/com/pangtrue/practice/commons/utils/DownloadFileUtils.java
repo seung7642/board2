@@ -15,7 +15,7 @@ import java.net.URLEncoder;
  */
 public class DownloadFileUtils {
 
-    private static final String UPLOAD_PATH = "/neowiz-data/board";
+    private static final String UPLOAD_PATH = "/Users/seungho/Desktop/fileupload-data/board";
 
     /**
      * 브라우저(Chrome, IE, Edge)에 따른 이름 처리에 따라 다운로드할 파일명을 가져온다.

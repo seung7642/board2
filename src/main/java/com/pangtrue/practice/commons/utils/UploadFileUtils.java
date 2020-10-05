@@ -30,7 +30,7 @@ import java.util.UUID;
 @Slf4j
 public class UploadFileUtils {
 
-    private static final String UPLOAD_PATH = "/fileupload-data/board";
+    private static final String UPLOAD_PATH = "/Users/seungho/Desktop/fileupload-data/board";
 
     public static AttachFile uploadFile(MultipartFile multipartFile) throws Exception {
         AttachFile attachFile = new AttachFile();
